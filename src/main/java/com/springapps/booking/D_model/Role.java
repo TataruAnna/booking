@@ -1,5 +1,7 @@
 package com.springapps.booking.D_model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.Set;
@@ -20,6 +22,7 @@ public class Role {
             joinColumns = @JoinColumn(name = "role_id"),
             inverseJoinColumns = @JoinColumn(name="user_id")
     )
+    @JsonBackReference("users-roles")
     private Set<User> users;
 
     public Role() {
@@ -48,4 +51,6 @@ public class Role {
     public void setUsers(Set<User> users) {
         this.users = users;
     }
+
+
 }

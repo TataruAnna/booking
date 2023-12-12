@@ -3,6 +3,8 @@ package com.springapps.booking.D_model;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -19,11 +21,22 @@ public class User {
     @JsonManagedReference("user-reservation")
     private List<Reservation> reservations;
 
-    @ManyToMany(mappedBy ="users")
+    @Column
+    private String name;
+
+    @ManyToMany(mappedBy ="users",cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JsonManagedReference("users-roles")
     private Set<Role> roles;
 
     public User() {
     }
+
+    public User(String name) {
+        this.name = name;
+        this.reservations = new ArrayList<>();
+        this.roles = new HashSet<>();
+    }
+
 
     public Long getId() {
         return id;
@@ -31,5 +44,29 @@ public class User {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }
