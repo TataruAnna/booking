@@ -1,13 +1,5 @@
 package com.springapps.booking.E_dto;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.springapps.booking.D_model.Hotel;
-import com.springapps.booking.D_model.RoomReservations;
-import jakarta.persistence.*;
-
-import java.util.List;
-
 public class RoomRequestDTO {
 
     private Long id;

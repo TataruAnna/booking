@@ -24,7 +24,7 @@ public class Room {
 
     @OneToMany(mappedBy = "room",  cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     @JsonManagedReference("roomreserv-room")
-    List<RoomReservations> roomReservationsList;
+    List<RoomReservation> roomReservationList;
 
     @ManyToOne
     @JoinColumn(name = "hotel_id")
@@ -40,7 +40,7 @@ public class Room {
         this.pricePerNight = pricePerNight;
         this.guestNumber = guestNumber;
         this.hotel = hotel;
-        roomReservationsList = new ArrayList<>();
+        roomReservationList = new ArrayList<>();
     }
 
     public Long getId() {
@@ -75,12 +75,12 @@ public class Room {
         this.guestNumber = guestNumber;
     }
 
-    public List<RoomReservations> getRoomReservationsList() {
-        return roomReservationsList;
+    public List<RoomReservation> getRoomReservationsList() {
+        return roomReservationList;
     }
 
-    public void setRoomReservationsList(List<RoomReservations> roomReservationsList) {
-        this.roomReservationsList = roomReservationsList;
+    public void setRoomReservationsList(List<RoomReservation> roomReservationList) {
+        this.roomReservationList = roomReservationList;
     }
 
     public Hotel getHotel() {

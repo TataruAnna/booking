@@ -2,12 +2,10 @@ package com.springapps.booking.A_controller;
 
 import com.springapps.booking.B_service.HotelService;
 import com.springapps.booking.D_model.Hotel;
+import com.springapps.booking.E_dto.RoomRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/hotel")
@@ -21,5 +19,10 @@ public class HotelController {
     @PostMapping("/{name}")
     public ResponseEntity<Hotel>addHotel(@PathVariable String name){
         return ResponseEntity.ok(hotelService.createHotel(name));
+    }
+
+    @PostMapping("/{hotelId}")
+    public ResponseEntity<?> addRoomToHotel(@RequestBody RoomRequestDTO roomRequestDTO, @PathVariable Long hotelId){
+        return ResponseEntity.ok(hotelService.addRoomToHotel(roomRequestDTO,hotelId));
     }
 }

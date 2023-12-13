@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
-public class RoomReservations {
+public class RoomReservation {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
@@ -17,7 +17,7 @@ public class RoomReservations {
     @JsonBackReference("reservation-roomreservation")
     private Reservation reservation;
 
-    public RoomReservations() {
+    public RoomReservation() {
     }
 
     public Long getId() {

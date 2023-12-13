@@ -29,10 +29,7 @@ public class UserController {
         return ResponseEntity.ok(userService.addRoleToUser(roleType,userId));
     }
 
-    @PostMapping("/{hotelId}")
-    public ResponseEntity<?> addRoomToHotel(@RequestBody RoomRequestDTO roomRequestDTO, @PathVariable Long hotelId){
-        return ResponseEntity.ok(userService.addRoomToHotel(roomRequestDTO,hotelId));
-    }
+
 
 
 
