@@ -64,6 +64,9 @@ public class Reservation {
     }
 
     public List<RoomReservation> getRoomReservationsList() {
+        if(roomReservationList==null){
+            roomReservationList = new ArrayList<>();
+        }
         return roomReservationList;
     }
 

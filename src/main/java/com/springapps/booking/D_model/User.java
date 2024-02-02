@@ -47,6 +47,9 @@ public class User {
     }
 
     public List<Reservation> getReservations() {
+        if(reservations==null){
+            reservations = new ArrayList<>();
+        }
         return reservations;
     }
 

@@ -37,7 +37,6 @@ public class ReservationService {
 
     public Reservation addReservation (ReservationRequestDTO reservationRequestDTO){
         User user = userRepository.findById(reservationRequestDTO.getUserId()).orElseThrow(()->new ResourceNotFoundException("User not found!"));
-
         List<Room> foundRooms = roomRepository.findAllById(reservationRequestDTO.getRoomIds());
 
         if (foundRooms.size() != reservationRequestDTO.getRoomIds().size()){
@@ -49,7 +48,6 @@ public class ReservationService {
                 throw  new ResourceNotFoundException("at least one of the rooms is already reserved");
             }
         }
-
         Reservation reservation = new Reservation();
         reservation.setCheckIn(reservationRequestDTO.getCheckIn());
         reservation.setCheckOut(reservationRequestDTO.getCheckOut());
@@ -66,10 +64,18 @@ public class ReservationService {
                 .map(room -> mapFromRoomToRoomReservation(room,reservation))
                 .collect(Collectors.toList());
         reservation.setRoomReservationsList(roomReservations);
+        reservation.setUser(user);
 
         return reservationRepository.save(reservation);
 
     }
+
+    public boolean existReservationBetween (Reservation reservation, LocalDate checkIn, LocalDate checkOut){
+        return reservation.getCheckIn().isBefore(checkIn) && reservation.getCheckOut().isAfter(checkOut)
+                || reservation.getCheckOut().isAfter(checkIn) && reservation.getCheckIn().isBefore(checkOut)
+                || reservation.getCheckIn().isEqual(checkIn) || reservation.getCheckOut().isEqual(checkOut);
+    }
+
 
     public RoomReservation mapFromRoomToRoomReservation (Room room, Reservation reservation){
         RoomReservation roomReservation = new RoomReservation();

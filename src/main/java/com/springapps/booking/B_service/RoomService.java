@@ -12,9 +12,12 @@ import java.util.stream.Collectors;
 @Service
 public class RoomService {
     RoomRepository roomRepository;
+
+    ReservationService reservationService;
     @Autowired
-    public RoomService(RoomRepository roomRepository) {
+    public RoomService(RoomRepository roomRepository, ReservationService reservationService) {
         this.roomRepository = roomRepository;
+        this.reservationService = reservationService;
     }
 
     public List<Room> getAvailableRoomsBy(LocalDate checkIn, LocalDate checkOut, Integer numberOfPersons){
@@ -28,10 +31,13 @@ public class RoomService {
     public boolean isAvailable(Room room, LocalDate checkIn , LocalDate checkOut){
         return room.getRoomReservationsList().stream()
                 .map(roomReservation -> roomReservation.getReservation())
-                .noneMatch(reservation ->
-                reservation.getCheckIn().isBefore(checkIn) && reservation.getCheckOut().isAfter(checkOut)
-                        || reservation.getCheckOut().isAfter(checkIn) && reservation.getCheckIn().isBefore(checkOut)
-                        || reservation.getCheckIn().isEqual(checkIn) || reservation.getCheckOut().isEqual(checkOut)
-        );
+                .noneMatch(reservation -> reservationService.existReservationBetween(reservation,checkIn,checkOut));
+    }
+
+    public List<Room> getAvailableRoomsByPrice(LocalDate checkIn, LocalDate checkOut, Integer numberOfPersons){
+       List<Room> availableRooms = getAvailableRoomsBy(checkIn, checkOut, numberOfPersons);
+       return availableRooms.stream()
+               .sorted((r1,r2) -> Double.compare(r1.getPricePerNight(), r2.getPricePerNight()))
+               .collect(Collectors.toList());
     }
 }
